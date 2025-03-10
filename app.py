@@ -1,5 +1,4 @@
 from flask import Flask, render_template, request, redirect, url_for, jsonify
-from google.cloud import vision
 import os
 import pickle
 import pytesseract
@@ -12,38 +11,86 @@ app = Flask(__name__)
 UPLOAD_FOLDER = 'uploads'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
+
 # Ensure upload folder exists
-os.makedirs(UPLOAD_FOLDER, exist_ok=True, mode=0o755)
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 # Set up logging
-logging.basicConfig(
-    level=logging.DEBUG,
-    format='%(asctime)s - %(levelname)s - %(message)s',
-    handlers=[
-        logging.FileHandler('app.log'),
-        logging.StreamHandler()
-    ]
-)
+logging.basicConfig(level=logging.DEBUG)
 
-# Set Tesseract path based on the operating system
-if os.name == 'nt':  # Windows
+# Load the pipeline
+try:
+    with open('ocr_pipeline.pkl', 'rb') as f:
+        tesseract_cmd, amount_pattern = pickle.load(f)
     pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
-else:  # Linux/Mac
-    pytesseract.pytesseract.tesseract_cmd = '/usr/bin/tesseract'
-
+except FileNotFoundError:
+    logging.error("OCR pipeline file (ocr_pipeline.pkl) not found!")
+    exit(1)
+except Exception as e:
+    logging.error(f"Error loading OCR pipeline: {e}")
+    exit(1)
 
 def extract_amount(image_path):
-    client = vision.ImageAnnotatorClient()
-    with open(image_path, 'rb') as image_file:
-        content = image_file.read()
-    image = vision.Image(content=content)
-    response = client.text_detection(image=image)
-    texts = response.text_annotations
-    amounts = []
-    for text in texts:
-        if re.match(r'\d{1,3}(?:,\d{3})*', text.description):
-            amounts.append(text.description)
-    return amounts if amounts else ['No amount found']
+    """Extract amounts from the uploaded image."""
+    try:
+        # Load the image
+        image = cv2.imread(image_path)
+        if image is None:
+            return ['Error: Image not loaded']
+
+        # Convert to grayscale
+        gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+
+        # Resize to enhance OCR accuracy
+        scale_factor = 2  # Adjust as needed
+        gray = cv2.resize(gray, None, fx=scale_factor, fy=scale_factor, interpolation=cv2.INTER_CUBIC)
+
+        # Reduce noise (optional, adjust kernel size as needed)
+        gray = cv2.GaussianBlur(gray, (3, 3), 0)
+
+        # Thresholding
+        thresh = cv2.adaptiveThreshold(gray, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C,
+                                       cv2.THRESH_BINARY, 11, 2)
+
+        # Morphological operations to clean the image
+        kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (2, 2))
+        processed = cv2.morphologyEx(thresh, cv2.MORPH_CLOSE, kernel)
+
+        # Extract text using PyTesseract
+        custom_config = r'--oem 3 --psm 6'
+        text = pytesseract.image_to_string(processed, config=custom_config)
+
+        # Debug: Log raw OCR output
+        logging.debug(f"Raw OCR Output: {text}")
+
+        # Find amounts using regex
+        # Updated regex pattern to capture amounts with commas (e.g., 3,600, 17,500)
+        amount_pattern = re.compile(r'\d{1,3}(?:,\d{3})+')
+        amounts = amount_pattern.findall(text)
+
+        # Remove duplicates
+        amounts = list(set(amounts))
+
+        # # Sort amounts numerically
+        # def get_numeric_value(amount):
+        #     return int(amount.replace(',', ''))
+        # amounts.sort(key=get_numeric_value)
+        # Remove commas from the amounts
+        amounts = [amount.replace(',', '') for amount in amounts]
+
+        # Sort amounts numerically
+        amounts.sort(key=lambda x: int(x))
+        
+        # Save extracted amounts to a file
+        save_path = os.path.join(app.config['UPLOAD_FOLDER'], 'extracted_amounts.csv')
+        with open(save_path, 'w') as f:
+            for amount in amounts:
+                f.write(f"{amount}\n")
+
+        return amounts if amounts else ['No amount found']
+    except Exception as e:
+        logging.error(f"Error extracting amounts: {e}")
+        return ['Error processing image']
 
 @app.route('/')
 def index():
@@ -70,8 +117,8 @@ def upload():
         amounts = extract_amount(filepath)
 
         # Handle errors in extraction
-        if 'error' in amounts:
-            return jsonify(amounts)
+        if 'Error' in amounts[0]:
+            return jsonify({'error': amounts[0]})
 
         # Redirect to result page with JSON encoded amounts
         return redirect(url_for('result', image_path=file.filename, amounts=json.dumps(amounts)))
@@ -87,4 +134,4 @@ def result():
                            extracted_amounts=extracted_amounts)
 
 if __name__ == '__main__':
-    app.run(debug=os.getenv('FLASK_DEBUG', 'False').lower() == 'true')
+    app.run(debug=True)
