@@ -11,6 +11,7 @@ app = Flask(__name__)
 UPLOAD_FOLDER = 'uploads'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
+pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR"
 # Ensure upload folder exists
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
