@@ -11,6 +11,7 @@ app = Flask(__name__)
 UPLOAD_FOLDER = 'uploads'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
+
 # Ensure upload folder exists
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
@@ -21,7 +22,7 @@ logging.basicConfig(level=logging.DEBUG)
 try:
     with open('ocr_pipeline.pkl', 'rb') as f:
         tesseract_cmd, amount_pattern = pickle.load(f)
-    pytesseract.pytesseract.tesseract_cmd = tesseract_cmd
+    pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
 except FileNotFoundError:
     logging.error("OCR pipeline file (ocr_pipeline.pkl) not found!")
     exit(1)
