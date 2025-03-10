@@ -21,8 +21,8 @@ logging.basicConfig(level=logging.DEBUG)
 # Load the pipeline
 try:
     with open('ocr_pipeline.pkl', 'rb') as f:
-        tesseract_cmd, amount_pattern = pickle.load(f)
-    pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
+        tesseract_path = "/usr/bin/tesseract" if os.name != "nt" else r"C:\Program Files\Tesseract-OCR\tesseract.exe"
+    pytesseract.pytesseract.tesseract_cmd = tesseract_path
 except FileNotFoundError:
     logging.error("OCR pipeline file (ocr_pipeline.pkl) not found!")
     exit(1)
