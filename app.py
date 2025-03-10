@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, jsonify
+from google.cloud import vision
 import os
 import pickle
 import pytesseract
@@ -30,62 +31,19 @@ if os.name == 'nt':  # Windows
 else:  # Linux/Mac
     pytesseract.pytesseract.tesseract_cmd = '/usr/bin/tesseract'
 
+
 def extract_amount(image_path):
-    """Extract amounts from the uploaded image."""
-    try:
-        # Load the image
-        image = cv2.imread(image_path)
-        if image is None:
-            return {'error': 'Image not loaded'}
-
-        # Convert to grayscale
-        gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-
-        # Resize to enhance OCR accuracy
-        scale_factor = 2  # Adjust as needed
-        gray = cv2.resize(gray, None, fx=scale_factor, fy=scale_factor, interpolation=cv2.INTER_CUBIC)
-
-        # Reduce noise (optional, adjust kernel size as needed)
-        gray = cv2.GaussianBlur(gray, (3, 3), 0)
-
-        # Thresholding
-        thresh = cv2.adaptiveThreshold(gray, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C,
-                                       cv2.THRESH_BINARY, 11, 2)
-
-        # Morphological operations to clean the image
-        kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (2, 2))
-        processed = cv2.morphologyEx(thresh, cv2.MORPH_CLOSE, kernel)
-
-        # Extract text using PyTesseract
-        custom_config = r'--oem 3 --psm 6'
-        text = pytesseract.image_to_string(processed, config=custom_config)
-
-        # Debug: Log raw OCR output
-        logging.debug(f"Raw OCR Output: {text}")
-
-        # Find amounts using regex
-        amount_pattern = re.compile(r'\d{1,3}(?:,\d{3})*')
-        amounts = amount_pattern.findall(text)
-
-        # Remove duplicates
-        amounts = list(set(amounts))
-
-        # Remove commas from the amounts
-        amounts = [amount.replace(',', '') for amount in amounts]
-
-        # Sort amounts numerically
-        amounts.sort(key=lambda x: int(x))
-        
-        # Save extracted amounts to a file
-        save_path = os.path.join(app.config['UPLOAD_FOLDER'], 'extracted_amounts.csv')
-        with open(save_path, 'w') as f:
-            for amount in amounts:
-                f.write(f"{amount}\n")
-
-        return amounts if amounts else ['No amount found']
-    except Exception as e:
-        logging.error(f"Error extracting amounts: {e}")
-        return {'error': 'Error processing image'}
+    client = vision.ImageAnnotatorClient()
+    with open(image_path, 'rb') as image_file:
+        content = image_file.read()
+    image = vision.Image(content=content)
+    response = client.text_detection(image=image)
+    texts = response.text_annotations
+    amounts = []
+    for text in texts:
+        if re.match(r'\d{1,3}(?:,\d{3})*', text.description):
+            amounts.append(text.description)
+    return amounts if amounts else ['No amount found']
 
 @app.route('/')
 def index():
