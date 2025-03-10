@@ -1,0 +1,129 @@
+2025-03-10 23:26:05,274 - INFO - 127.0.0.1 - - [10/Mar/2025 23:26:05] "GET / HTTP/1.1" 200 -
+2025-03-10 23:26:05,668 - INFO - 127.0.0.1 - - [10/Mar/2025 23:26:05] "[36mGET /static/style.css HTTP/1.1[0m" 304 -
+2025-03-10 23:26:06,456 - INFO - 127.0.0.1 - - [10/Mar/2025 23:26:06] "GET / HTTP/1.1" 200 -
+2025-03-10 23:26:16,174 - DEBUG - ['C:\\Program Files\\Tesseract-OCR\\tesseract.exe', 'C:\\Users\\kored\\AppData\\Local\\Temp\\tess_vho9eel9_input.PNG', 'C:\\Users\\kored\\AppData\\Local\\Temp\\tess_vho9eel9', '--oem', '3', '--psm', '6', 'txt']
+2025-03-10 23:26:18,410 - DEBUG - Raw OCR Output: 1TMBK W(t) ° @ GD?
+€ Transaction History
+
+Q. Search
+
+Efe, Rukevwe Thompson -N24,021.00
+09:22 AM
+
+Emmanuel Ezenwa Nwank... -#23,760.00
+09:19 AM
+
+Hammed Adam -N¥50,500.00
+09:18 AM
+
+(63) Helen Ijato Abah -N31,299.00
+09:09 AM
+
+Paul Toluwani Shoneye -¥300,000.00
+09:05 AM
+
+Robert, Righteous Tega -N3,600.00
+08:54 AM
+
+Robert, Righteous Tega -N20,418.00
+08:53 AM
+
+Sodig Akande Ilesanmi -¥17,500.00
+08:52 AM
+
+0 © <J
+
+2025-03-10 23:26:18,425 - INFO - 127.0.0.1 - - [10/Mar/2025 23:26:18] "[32mPOST /upload HTTP/1.1[0m" 302 -
+2025-03-10 23:26:18,625 - INFO - 127.0.0.1 - - [10/Mar/2025 23:26:18] "GET /result?image_path=IMG_(5).jpg&amounts=["00",+"0",+"1",+"05",+"08",+"09",+"18",+"19",+"22",+"52",+"53",+"54",+"63",+"3600",+"17500",+"20418",+"23760",+"24021",+"31299",+"50500",+"300000"] HTTP/1.1" 200 -
+2025-03-10 23:26:18,718 - INFO - 127.0.0.1 - - [10/Mar/2025 23:26:18] "[36mGET /static/style.css HTTP/1.1[0m" 304 -
+2025-03-10 23:26:18,723 - INFO - 127.0.0.1 - - [10/Mar/2025 23:26:18] "[33mGET /uploads/IMG_(5).jpg HTTP/1.1[0m" 404 -
+2025-03-10 23:29:18,441 - INFO - 127.0.0.1 - - [10/Mar/2025 23:29:18] "GET /result?image_path=IMG_(5).jpg&amounts=["00",+"0",+"1",+"05",+"08",+"09",+"18",+"19",+"22",+"52",+"53",+"54",+"63",+"3600",+"17500",+"20418",+"23760",+"24021",+"31299",+"50500",+"300000"] HTTP/1.1" 200 -
+2025-03-10 23:29:18,504 - INFO - 127.0.0.1 - - [10/Mar/2025 23:29:18] "[36mGET /static/style.css HTTP/1.1[0m" 304 -
+2025-03-10 23:29:18,555 - INFO - 127.0.0.1 - - [10/Mar/2025 23:29:18] "[33mGET /uploads/IMG_(5).jpg HTTP/1.1[0m" 404 -
+2025-03-10 23:29:23,060 - INFO - 127.0.0.1 - - [10/Mar/2025 23:29:23] "GET / HTTP/1.1" 200 -
+2025-03-10 23:29:23,116 - INFO - 127.0.0.1 - - [10/Mar/2025 23:29:23] "[36mGET /static/style.css HTTP/1.1[0m" 304 -
+2025-03-10 23:29:23,338 - INFO - 127.0.0.1 - - [10/Mar/2025 23:29:23] "GET / HTTP/1.1" 200 -
+2025-03-10 23:29:34,826 - DEBUG - ['C:\\Program Files\\Tesseract-OCR\\tesseract.exe', 'C:\\Users\\kored\\AppData\\Local\\Temp\\tess_l_1xv_ps_input.PNG', 'C:\\Users\\kored\\AppData\\Local\\Temp\\tess_l_1xv_ps', '--oem', '3', '--psm', '6', 'txt']
+2025-03-10 23:29:35,715 - DEBUG - Raw OCR Output: 1TMBK W(t) ° @ GD?
+€ Transaction History
+
+Q. Search
+
+Victor Vincent Ogwu -¥30,000.00
+10:34 AM
+
+(60) Efe Onosigho -N¥156,626.00
+10:32 AM
+
+Tijani Babatunde Oladimeji -57,791.00
+10:29 AM
+
+(60) Joshua Godfrey Wobilor -N¥ 18,946.00
+10:27 AM
+
+Efe Gideon -N55,050.00
+10:26 AM
+
+Usman Abdulazeez - -N231,555.00
+10:26 AM
+
+Habeeb Abiodun Raheem -N17,450.00
+10:24 AM
+
+Igho Paul -¥48,500.00
+10:19 AM
+
+0 © <J
+
+2025-03-10 23:29:35,725 - INFO - 127.0.0.1 - - [10/Mar/2025 23:29:35] "[32mPOST /upload HTTP/1.1[0m" 302 -
+2025-03-10 23:29:35,736 - INFO - 127.0.0.1 - - [10/Mar/2025 23:29:35] "GET /result?image_path=IMG_(9).jpg&amounts=["00",+"0",+"1",+"10",+"19",+"24",+"26",+"27",+"29",+"32",+"34",+"60",+"17450",+"18946",+"30000",+"48500",+"55050",+"57791",+"156626",+"231555"] HTTP/1.1" 200 -
+2025-03-10 23:29:35,838 - INFO - 127.0.0.1 - - [10/Mar/2025 23:29:35] "[36mGET /static/style.css HTTP/1.1[0m" 304 -
+2025-03-10 23:29:35,861 - INFO - 127.0.0.1 - - [10/Mar/2025 23:29:35] "[33mGET /uploads/IMG_(9).jpg HTTP/1.1[0m" 404 -
+2025-03-10 23:30:08,043 - INFO - 127.0.0.1 - - [10/Mar/2025 23:30:08] "GET / HTTP/1.1" 200 -
+2025-03-10 23:30:08,094 - INFO - 127.0.0.1 - - [10/Mar/2025 23:30:08] "[36mGET /static/style.css HTTP/1.1[0m" 304 -
+2025-03-10 23:30:08,291 - INFO - 127.0.0.1 - - [10/Mar/2025 23:30:08] "GET / HTTP/1.1" 200 -
+2025-03-10 23:30:08,730 - INFO - 127.0.0.1 - - [10/Mar/2025 23:30:08] "GET / HTTP/1.1" 200 -
+2025-03-10 23:30:08,792 - INFO - 127.0.0.1 - - [10/Mar/2025 23:30:08] "[36mGET /static/style.css HTTP/1.1[0m" 304 -
+2025-03-10 23:30:09,047 - INFO - 127.0.0.1 - - [10/Mar/2025 23:30:09] "GET / HTTP/1.1" 200 -
+2025-03-10 23:30:09,330 - INFO - 127.0.0.1 - - [10/Mar/2025 23:30:09] "GET / HTTP/1.1" 200 -
+2025-03-10 23:30:09,385 - INFO - 127.0.0.1 - - [10/Mar/2025 23:30:09] "[36mGET /static/style.css HTTP/1.1[0m" 304 -
+2025-03-10 23:30:09,665 - INFO - 127.0.0.1 - - [10/Mar/2025 23:30:09] "GET / HTTP/1.1" 200 -
+2025-03-10 23:30:10,025 - INFO - 127.0.0.1 - - [10/Mar/2025 23:30:10] "GET / HTTP/1.1" 200 -
+2025-03-10 23:30:10,083 - INFO - 127.0.0.1 - - [10/Mar/2025 23:30:10] "[36mGET /static/style.css HTTP/1.1[0m" 304 -
+2025-03-10 23:30:10,375 - INFO - 127.0.0.1 - - [10/Mar/2025 23:30:10] "GET / HTTP/1.1" 200 -
+2025-03-10 23:30:19,921 - DEBUG - ['C:\\Program Files\\Tesseract-OCR\\tesseract.exe', 'C:\\Users\\kored\\AppData\\Local\\Temp\\tess_61uky_7n_input.PNG', 'C:\\Users\\kored\\AppData\\Local\\Temp\\tess_61uky_7n', '--oem', '3', '--psm', '6', 'txt']
+2025-03-10 23:30:20,894 - DEBUG - Raw OCR Output: 11IDBK M(t) ° S @D+
+€ Transaction History
+
+Q. Search
+
+(69) Messiah Efe -¥50,107.00
+10:50 AM
+
+John Jerome Tuta -¥30,000.00
+10:49 AM
+
+Amoo, Alim Ayomide -N62,822.00
+10:48 AM
+
+Ogunemi Abdulsalam Olus... -#30,594.00
+10:47 AM
+
+Victor Markus -¥ 19,170.00
+10:46 AM
+
+George Pere Wilson -¥100,149.00
+10:45 AM
+
+Akpeoghene Idabor -N48,344.00
+10:45 AM
+
+Jonathan Joseph -¥121,171.00
+10:37 AM
+
+0 © <J
+
+2025-03-10 23:30:20,908 - INFO - 127.0.0.1 - - [10/Mar/2025 23:30:20] "[32mPOST /upload HTTP/1.1[0m" 302 -
+2025-03-10 23:30:20,931 - INFO - 127.0.0.1 - - [10/Mar/2025 23:30:20] "GET /result?image_path=IMG_(10).jpg&amounts=["00",+"0",+"10",+"11",+"37",+"45",+"46",+"47",+"48",+"49",+"50",+"69",+"19170",+"30000",+"30594",+"48344",+"50107",+"62822",+"100149",+"121171"] HTTP/1.1" 200 -
+2025-03-10 23:30:21,024 - INFO - 127.0.0.1 - - [10/Mar/2025 23:30:21] "[36mGET /static/style.css HTTP/1.1[0m" 304 -
+2025-03-10 23:30:21,033 - INFO - 127.0.0.1 - - [10/Mar/2025 23:30:21] "[33mGET /uploads/IMG_(10).jpg HTTP/1.1[0m" 404 -
