@@ -11,24 +11,24 @@ app = Flask(__name__)
 UPLOAD_FOLDER = 'uploads'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
-
 # Ensure upload folder exists
-os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+os.makedirs(UPLOAD_FOLDER, exist_ok=True, mode=0o755)
 
 # Set up logging
-logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(
+    level=logging.DEBUG,
+    format='%(asctime)s - %(levelname)s - %(message)s',
+    handlers=[
+        logging.FileHandler('app.log'),
+        logging.StreamHandler()
+    ]
+)
 
-# Load the pipeline
-try:
-    with open('ocr_pipeline.pkl', 'rb') as f:
-        tesseract_cmd, amount_pattern = pickle.load(f)
+# Set Tesseract path based on the operating system
+if os.name == 'nt':  # Windows
     pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
-except FileNotFoundError:
-    logging.error("OCR pipeline file (ocr_pipeline.pkl) not found!")
-    exit(1)
-except Exception as e:
-    logging.error(f"Error loading OCR pipeline: {e}")
-    exit(1)
+else:  # Linux/Mac
+    pytesseract.pytesseract.tesseract_cmd = '/usr/bin/tesseract'
 
 def extract_amount(image_path):
     """Extract amounts from the uploaded image."""
@@ -36,7 +36,7 @@ def extract_amount(image_path):
         # Load the image
         image = cv2.imread(image_path)
         if image is None:
-            return ['Error: Image not loaded']
+            return {'error': 'Image not loaded'}
 
         # Convert to grayscale
         gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
@@ -64,17 +64,12 @@ def extract_amount(image_path):
         logging.debug(f"Raw OCR Output: {text}")
 
         # Find amounts using regex
-        # Updated regex pattern to capture amounts with commas (e.g., 3,600, 17,500)
-        amount_pattern = re.compile(r'\d{1,3}(?:,\d{3})+')
+        amount_pattern = re.compile(r'\d{1,3}(?:,\d{3})*')
         amounts = amount_pattern.findall(text)
 
         # Remove duplicates
         amounts = list(set(amounts))
 
-        # # Sort amounts numerically
-        # def get_numeric_value(amount):
-        #     return int(amount.replace(',', ''))
-        # amounts.sort(key=get_numeric_value)
         # Remove commas from the amounts
         amounts = [amount.replace(',', '') for amount in amounts]
 
@@ -90,7 +85,7 @@ def extract_amount(image_path):
         return amounts if amounts else ['No amount found']
     except Exception as e:
         logging.error(f"Error extracting amounts: {e}")
-        return ['Error processing image']
+        return {'error': 'Error processing image'}
 
 @app.route('/')
 def index():
@@ -117,8 +112,8 @@ def upload():
         amounts = extract_amount(filepath)
 
         # Handle errors in extraction
-        if 'Error' in amounts[0]:
-            return jsonify({'error': amounts[0]})
+        if 'error' in amounts:
+            return jsonify(amounts)
 
         # Redirect to result page with JSON encoded amounts
         return redirect(url_for('result', image_path=file.filename, amounts=json.dumps(amounts)))
@@ -134,4 +129,4 @@ def result():
                            extracted_amounts=extracted_amounts)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=os.getenv('FLASK_DEBUG', 'False').lower() == 'true')
