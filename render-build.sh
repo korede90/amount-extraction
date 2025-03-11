@@ -1,4 +1,4 @@
 #!/bin/bash
-echo "Installing Tesseract OCR..."
-apt-get update && apt-get install -y tesseract-ocr
-echo "Tesseract installation completed."
+# Install Tesseract OCR
+sudo apt-get update
+sudo apt-get install -y tesseract-ocr
