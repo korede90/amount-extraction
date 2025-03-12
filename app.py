@@ -16,12 +16,16 @@ os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 # Set up logging
 logging.basicConfig(level=logging.DEBUG)
 
-# Set the correct Tesseract path
-try:
-    pytesseract.pytesseract.tesseract_cmd = "/usr/bin/tesseract" if os.name != "nt" else r"C:\Program Files\Tesseract-OCR\tesseract.exe"
-except Exception as e:
-    logging.error(f"Error setting Tesseract path: {e}")
-    exit(1)
+# Set Tesseract path based on the operating system
+if os.name == 'nt':  # Windows
+    pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
+else:  # Linux/Mac
+    pytesseract.pytesseract.tesseract_cmd = '/usr/bin/tesseract'
+# try:
+#     pytesseract.pytesseract.tesseract_cmd = "/usr/bin/tesseract" if os.name != "nt" else r"C:\Program Files\Tesseract-OCR\tesseract.exe"
+# except Exception as e:
+#     logging.error(f"Error setting Tesseract path: {e}")
+#     exit(1)
 
 def extract_amount(image_path):
     """Extract amounts from the uploaded image."""
