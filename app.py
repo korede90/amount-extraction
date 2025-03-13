@@ -18,7 +18,7 @@ logging.basicConfig(level=logging.DEBUG)
 
 # Set Tesseract path based on the operating system
 if os.name == 'nt':  # Windows
-    pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
+    pytesseract.pytesseract.tesseract_cmd = r'C:/Program Files/Tesseract-OCR/tesseract.exe'
 else:  # Linux/Mac
     pytesseract.pytesseract.tesseract_cmd = '/usr/bin/tesseract'
 # try:
